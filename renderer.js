@@ -23,10 +23,12 @@ along with JHipster-App.  If not, see <http://www.gnu.org/licenses/>.
 const ipc = require('electron').ipcRenderer;
 const {shell} = require('electron');
 const {dialog} = require('electron').remote;
-
+const ip = require("ip");
 let jhipsterConfig;
 
 function init() {
+    $("#localIp").text(ip.address());
+    showAdminOptions(false);
     ipc.send('get-project-folder');
 }
 
@@ -41,6 +43,16 @@ function selectProject() {
             ipc.send('set-project-folder', projectFolder);
         }
     })
+}
+
+function showAdminOptions(show){
+  if(show){
+    $(".adminOptionsShown").show();
+    $(".adminOptionsHidden").hide();
+  } else{
+    $(".adminOptionsShown").hide();
+    $(".adminOptionsHidden").show();
+  }
 }
 
 function projectOpen() {
